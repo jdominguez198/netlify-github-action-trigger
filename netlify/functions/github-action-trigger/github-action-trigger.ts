@@ -6,18 +6,20 @@ export const handler: Handler = async (event, context) => {
   const octokit = new Octokit({ auth: token });
 
   try {
-    await octokit.request('POST /repos/{owner}/{repo}/dispatches', {
+    const { data } = await octokit.request('POST /repos/{owner}/{repo}/dispatches', {
       owner,
       repo: repository,
       event_type: 'static_build'
     });
 
     return {
-      statusCode: 200
+      statusCode: 200,
+      body: data
     };
   } catch (err) {
     return {
-      statusCode: 500
+      statusCode: 500,
+      body: err
     };
   }
 }
