@@ -10,7 +10,7 @@ export const handler: Handler = async (event, context) => {
   } = process.env;
   const { hook_key: hookKey } = event.queryStringParameters;
 
-  if (hookSecretKey !== hookKey) {
+  if (!hookKey || hookSecretKey !== hookKey) {
     return {
       statusCode: 401,
       body: 'Invalid secret'
